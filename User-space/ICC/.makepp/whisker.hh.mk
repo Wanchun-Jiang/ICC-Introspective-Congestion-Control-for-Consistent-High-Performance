@@ -1,0 +1,6 @@
+LIBS=
+INCLUDES=dna.pb.h memoryrange.hh
+SYSTEM_INCLUDES=string vector
+C_MD5_SUM=Kngr78lMhV2ylUFbLhvudQ
+SIGNATURE=1725181424,3765
+END=

@@ -1,0 +1,45 @@
+3/usr/bin/makepp clean
+VERSION2.0.98.55.26.1x86_64-linux-gnu-thread-multi
+DEBUG0
+LOAD56413dba4ce8makefile56413d347e48/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC56413d347e48
+TRY56413dba4ce8
+USEdefault rule
+DEPEND56413dba4ce8
+UP_TO_DATE56413dba4ce8
+RULE_ALT/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:36/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:3356413dbbaec8python-wrapper.o56413d347e48
+RULE_IGN_PATTERN/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:36
+RULE_ALT/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:42/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:3656413dbc36c0pcc-tcp.o56413d347e48
+RULE_IGN_PATTERN/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:36
+LOAD_INCL56413dbbafd0makepp_builtin_rules.mk56413d133d30/usr/share/makepp56413dba4ce8
+LOAD_END56413dba4ce8
+TRY56413dba1508clean56413d347e48
+USE/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:13
+SCAN_INFO56413dba1508
+LEX_RULE56413dba1508info not cached
+PARSErm -f random.o memory.o memoryrange.o rat.o whisker.o whiskertree.o udp-socket.o traffic-generator.o remycc.o markoviancc.o estimators.o rtt-window.o ICC.o sender receiver sender.o receiver.o56413d347e48/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:13
+LOAD_DEFAULT56413dbf1b40bin56413dbfebc0/usr/local/go
+LOAD_INCL56413dbbafd056413dbf2948makepp_default_makefile.mk56413d133d30
+LOAD_END56413dbf2948
+LOAD_DEFAULT56413dc1d148remote-cli56413dc1cf20/home/pdcc/.vscode-server/bin/8b3775030ed1a69b13e4f4c628c612102e30a681/bin
+LOAD_INCL56413dbbafd056413dbf2948
+LOAD_END56413dbf2948
+LOAD_DEFAULT56413dc2a578bin56413dc1f8f8/home/pdcc/.local
+LOAD_INCL56413dbbafd056413dbf2948
+LOAD_END56413dbf2948
+TRY56413dc42670rm56413dc424a8/bin
+USEdefault rule
+DEPEND56413dc42670
+UP_TO_DATE56413dc42670
+DEPEND56413dba150856413dc42670
+BUILD_NONE56413dba1508
+SUCCESS/home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/makefile:1356413dba1508
+*** warning: I attempted to build /home/pdcc/lhy/ICC/gitBak/ICC/User-space/ICC/clean,
+  but after successfully executing the commands, the target does not exist.
+  Perhaps it is a phony target?	 If so, the rule defining it should be modified
+  like this:
+    $(phony clean): dependencies
+	actions
+
+  or you could also declare it as phony like this:
+    .PHONY: clean
+N_FILES010
