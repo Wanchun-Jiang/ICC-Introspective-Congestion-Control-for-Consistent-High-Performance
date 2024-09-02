@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#define LDEBUG
+// #define LDEBUG
 
 #define packet_size 1500
 
@@ -22,8 +22,10 @@ double IntroCC::current_timestamp( void ){
 void IntroCC::init() {
   if (num_pkts_acked != 0) {
 	  external_min_rtt=min_rtt;
+    #ifdef LDEBUG
     std::cerr << "% Packets Lost: " << (100.0 * num_pkts_lost) /
       (num_pkts_acked + num_pkts_lost) << " at " << current_timestamp() << " " << num_pkts_acked << " " << num_pkts_sent << " min_rtt= " << min_rtt << " " << num_pkts_acked << " " << num_pkts_lost << " if compete: " << if_compete << endl;
+    #endif
     if (slow_start)
       std::cerr << "Finished while in slow-start at window " << _the_window << endl;
   }
@@ -121,7 +123,7 @@ int IntroCC::find_fm()
 	int n=P_qd.size();
 	double fs=1.0*n/cycle;
 	double temp,qst=-1;
-	cout<<endl<<"---------------------------!"<<endl;
+	// cout<<endl<<"---------------------------!"<<endl;
 	rtt_num++;
 	fftw_complex *outa,*ina;
 	outa = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n);
@@ -189,29 +191,12 @@ int IntroCC::find_fm()
 }
 
 void IntroCC::update_lamda(double Qamp,double gain,Time rtt){//bool pkt_lost __attribute((unused)), double cur_rtt) {
-  /*double cur_time = current_timestamp();
-	if (pkt_lost) 
-	{
-      is_uniform.update(rtt_window.get_unjittered_rtt());
-      //cout << "Packet lost: " << cur_time << endl;
-    }*/
-	//static double v=1.0;
-	//rtt/=1000; // converge to (s)
 	if (utility_mode==AUTO_LAMDA)
 	{
 		
-		/* double C_N=lamda*rtt/Qamp;
-		//double Rc_K=std::pow(2.71828,0.001*1.5*C_N/Rc);
-		double Rc_K=std::pow(2.71828,C_N/Rc);
-		lamda=max(min(gain*Bd*C_N/Rc_K/rtt, 10*lamda),0.1*lamda);
-		std::cout<< " C/N "<<C_N << " Rc_k " << Rc_K << " exct_Qd " << Bd/Rc_K <<endl; */
 		
 		if(first_periodic)
 		{
-			//double C_N=lamda*rtt/Qamp;
-			//lamda=0.5*std::max(Bd,(P_ave-min_rtt))/P_ave*C_N;// by lhy 2020.10.13
-			/* lamda=0.5*std::max(Bd,(P_ave-min_rtt))/P_ave*Rc*log(Bd/(P_ave-min_rtt));// by lhy 2020.11.06
-			if(lamda<=0)lamda=default_lamda; */
 			first_periodic=false;
 			return ;
 		}
@@ -225,20 +210,6 @@ void IntroCC::update_lamda(double Qamp,double gain,Time rtt){//bool pkt_lost __a
 		else lamda+=gain*0.2*detectedLamda;
 		rtt=rtt;
 		
-		/* if (nearEmpty)
-		{
-			//lamda*=0.5;
-			//lamda=default_lamda;
-			//v=1.0;
-		}
-		else
-		{
-			double Qamp=(P_max-P_min)/1000;
-			double C_N=2*lamda/Qamp;
-			double Rc_K=std::pow(2.71828,0.001*1.5*C_N/Rc);
-			lamda=Bd*0.001*C_N/Rc_K;//lamda=2*lamda*Bd/(P_max-P_min)+1;
-			//v*=1.1;
-		} */
 	}
 }
 
@@ -351,6 +322,7 @@ void IntroCC::onACK(int ack,
 	  P_cwnd.push_back(_the_window);
 	  P_qd.push_back(rtt_measured);
 	  P_min=min(P_min,cur_time - sent_time);
+    P_min=min(P_min,rtt_measured);
 	  P_max=max(P_max,rtt_measured);
 	  P_ave+=(rtt_measured);
 	  P_cnt++;
@@ -445,7 +417,7 @@ void IntroCC::onACK(int ack,
 		first_uncoord = true;
 		//rtt_window.change_window(false);
 	  }
-	  else if(if_compete && period_state < 0 && P_min>2*Bd+gloabMinRtt)// compete 
+	  else if(if_compete && (P_ave>P_min && P_ave-P_min>2*Bd) &&  period_state < 0 && P_min>2*Bd+gloabMinRtt)// compete
 	  {
 		  //rtt_window.change_window(true);
 		  cycle=20*min_rtt/1000;//2020.09.12
@@ -476,21 +448,6 @@ void IntroCC::onACK(int ack,
 	  }
 	  preAm0 = P_ave;
 	  double Qamp=0;
-	  /* if(nearEmpty && P_ave_pre!=0)
-	  {
-		  P_ave=P_ave_pre;
-		  Qamp=P_max-P_ave;
-	  }
-	  else if(pkt_lost && P_ave_pre!=0)
-	  {
-		  P_ave=P_ave_pre;
-		  Qamp=P_ave-P_min;
-	  }
-	  else
-	  {
-		  //P_ave/=P_qd.size();
-		  Qamp=(P_max-P_min)/2;
-	  } */
 	  if(!(nearEmpty || probe_ceil))P_ave_pre=P_ave;// by lhy 2020.10.13
 	  Qamp=std::max(P_max-P_ave_pre,P_ave_pre-P_min);
 	  if((P_max-P_min)/2>Qamp || P_ave_pre==0)
@@ -536,14 +493,6 @@ void IntroCC::onACK(int ack,
 	  num_pkts_lost=0;
 	  P_cnt=0;
   }
-  /* if(Bd>defaultBd && pkt_lost){
-		cur_rate*=0.7;
-		_the_window = max(2.0, cur_rate * min_rtt / (1.0*packet_size*8/1000));
-		cur_rate = max(cur_rate, 0.2 * (1.0*packet_size*8/1000) / min_rtt);
-		cur_intersend_time = 1000 / (cur_rate * 1000 / (1.0*packet_size*8/1000));
-		_intersend_time = randomize_intersend(cur_intersend_time);
-  } */
-  //if(Bd>defaultBd && pkt_lost)theta=1;
   update_intersend_time(cur_time - sent_time);
   Time rttstanding = rtt_window.get_unjittered_rtt();
   if(Bd>defaultBd && pkt_lost && cur_time-last_dec_time > rttstanding)
@@ -580,7 +529,7 @@ void IntroCC::onACK(int ack,
   #endif
   ++ num_pkts_acked;
   if (pkt_lost) {
-    cout<< "\ndebug1:LOST! --------------------" << endl;
+    // cout<< "\ndebug1:LOST! --------------------" << endl;
   }
 }
 
