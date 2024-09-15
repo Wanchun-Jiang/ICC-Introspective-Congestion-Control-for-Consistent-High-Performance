@@ -23,10 +23,16 @@ transporting data yet, though such a version is in development in the
 Installation
 ------------
 
-Dependencies: Makepp, Google protocol buffers, Boost C+ library, FFTW3 and
-jemalloc. On Ubuntu install using
+Dependencies: Makepp, Google protocol buffers, Boost C+ library, FFTW3, 
+jemalloc, and Gnuplot. On Ubuntu install using
 
-`sudo apt-get install g++ makepp libboost-dev libprotobuf-dev protobuf-compiler libjemalloc-dev iperf libboost-python-dev fftw3 fftw3-dev`
+`sudo apt-get install g++ makepp libboost-dev libprotobuf-dev protobuf-compiler libjemalloc-dev iperf libboost-python-dev fftw3 fftw3-dev gnuplot`
+
+MAHIMAHI should be also installed for the local test of ICC.
+
+`sudo add-apt-repository -y ppa:keithw/mahimahi
+sudo apt-get update`
+`sudo apt-get install mahimahi`
 
 Run: `makepp` in the base directory. It should create 'sender' and
 'receiver' executables in the home directory. Uses the makepp build

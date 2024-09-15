@@ -1,2 +1,4 @@
 .makepp/
 User-space/ICC/.makepp/
+NS3/ns-3.27/.waf*
+NS3/ns-3.27/build/
