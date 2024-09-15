@@ -30,8 +30,10 @@ jemalloc, and Gnuplot. On Ubuntu install using
 
 MAHIMAHI should be also installed for the local test of ICC.
 
-`sudo add-apt-repository -y ppa:keithw/mahimahi
-sudo apt-get update`
+`sudo add-apt-repository -y ppa:keithw/mahimahi`
+
+`sudo apt-get update`
+
 `sudo apt-get install mahimahi`
 
 Run: `makepp` in the base directory. It should create 'sender' and
