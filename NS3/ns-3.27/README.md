@@ -3,9 +3,8 @@
 #### Dependencies Installation
 
 ```
-sudo apt-get install gcc g++ python python3
 
-sudo apt-get install gcc g++ python python3 python3-dev
+sudo apt-get install gcc-5 g++-5 python python3 python3-dev
 
 sudo apt-get install python3-setuptools git mercurial
 
@@ -48,10 +47,6 @@ sudo apt-get install fftw3 fftw3-dev
 
 #### Build
 
-./waf configure
-
-if the version of c++>5.x:
-
 CC='gcc-5' CXX='g++-5' ./waf configure
 
 ./waf
@@ -60,7 +55,9 @@ CC='gcc-5' CXX='g++-5' ./waf configure
 
 ./waf --run "periodcCCEvaDumbbell"
 
+Outputs including RTT, RTT_standing (Stand), Queuing delay (Qd), Time stamp (now), cwnd, Target rate (Trate) and so on, which are represented as bellow, indicates that the simulation is run successfully.
 
+`0x[...] rttI [...] Stand [...] Old [...] RTTmin [...] Qd [...] now [...] ......`
 
 
 

@@ -286,7 +286,7 @@ void TcpPeriodicDC::Send(Ptr<TcpSocketBase> tsb, Ptr<TcpSocketState> tcb,
 	  ackTimeHistory.insert(std::pair<SequenceNumber32,Time>(tcb->m_nextTxSequence,Simulator::Now ()));
 	  ackSeqHistory.insert(std::pair<SequenceNumber32,SequenceNumber32>(tcb->m_nextTxSequence,tcb->m_lastAckedSeq));
   }
-  NS_LOG_INFO("debug:Pacing "<< this <<" now: "<< (double)1.0*Simulator::Now ().GetInteger()/1000000000 << " send_seq " << seq << " Pacing_pkts "<< tsb->pacingQueueBytes()/tcb->m_segmentSize<<" Inflight "<<tsb->BytesInFlight()/tcb->m_segmentSize << " Pacing_rate "<< tcb->GetPacingRate() << " now(ns) " <<  Simulator::Now ().GetInteger() % 1000000 << " with "<< tcb->m_congState << " " << isRetrans);
+  NS_LOG_DEBUG("debug:Pacing "<< this <<" now: "<< (double)1.0*Simulator::Now ().GetInteger()/1000000000 << " send_seq " << seq << " Pacing_pkts "<< tsb->pacingQueueBytes()/tcb->m_segmentSize<<" Inflight "<<tsb->BytesInFlight()/tcb->m_segmentSize << " Pacing_rate "<< tcb->GetPacingRate() << " now(ns) " <<  Simulator::Now ().GetInteger() % 1000000 << " with "<< tcb->m_congState << " " << isRetrans);
 }
 
 void
@@ -417,7 +417,7 @@ TcpPeriodicDC::PktsAcked (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked,
 		find_fm(&fm,&amplitudFm,&f0Am,QdArray,QdArray.size()/cycle,CwndArray,&simiFactor);
 		amplitudFm*=2;
 		double simiD=abs(double(1.0*(QdInc-CwndInc)))/QdArray.size();
-		NS_LOG_INFO("debug:Interval_Arrive "<< this <<" now: "<< (double)1.0*nowToInt/1000000000<<" fm: "<< fm << " similarity: " << simiFactor/QdArray.size() << " simiD: "<<simiD<<" Bd "<<Bd << " AM0 " << curAm0 << " Qave " << Qave);
+		NS_LOG_DEBUG("debug:Interval_Arrive "<< this <<" now: "<< (double)1.0*nowToInt/1000000000<<" fm: "<< fm << " similarity: " << simiFactor/QdArray.size() << " simiD: "<<simiD<<" Bd "<<Bd << " AM0 " << curAm0 << " Qave " << Qave);
 		if(isCom && (simiFactor/QdArray.size() > 0.01 || simiD > 0.7) && !isDC)//combining frequency and time domain : 2020.8.15 by lhy
 		{
 			/* while(!vals.empty())vals.pop_back();
@@ -429,7 +429,7 @@ TcpPeriodicDC::PktsAcked (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked,
 			Bd = defaultBd*(1.0*(double)(m_RTTmax.GetSeconds()-RTTminop)/Qop);
 			Bd = max(Bd,defaultBd);
 			ifcompete=true;
-			NS_LOG_INFO("debug:Compete "<< this <<" now: "<< (double)1.0*nowToInt/1000000000<<" RTTmax: "<< m_RTTmax.GetSeconds() << " RTTminop: " << RTTminop << " Qop: "<<Qop<<" Bd "<<Bd);
+			NS_LOG_DEBUG("debug:Compete "<< this <<" now: "<< (double)1.0*nowToInt/1000000000<<" RTTmax: "<< m_RTTmax.GetSeconds() << " RTTminop: " << RTTminop << " Qop: "<<Qop<<" Bd "<<Bd);
 			//m_theta = 1;
 		}
 		else if(true && fm>0 && oldFm-std::min(5*fmth,2.0)<=fm&&fm<=oldFm+std::min(5*fmth,2.0) && curAm0>=0.9*preAm0 && curAm0<=1.1*preAm0){// restrain stable state by lhy 2021.9.2
@@ -510,7 +510,7 @@ TcpPeriodicDC::PktsAcked (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked,
 				}
 				
 				Bd=defaultBd;
-				NS_LOG_INFO("debug:Interval_Arrive "<< this <<" now: "<< (double)1.0*nowToInt/1000000000 << " C/N: "<< C_N << " Qdamp: "<<Qdamp<<" pre_Qdave: "<<pre_Qdave<<" Qave: "<<Qave-m_RTTmin.GetSeconds()<<" L_gain: "<<L_gain<<" lamda: "<<m_lamuda << " Pmax: "<< m_RTTmax.GetSeconds() << " Pmin: " << tempMin.GetSeconds() << " clear? " << nearEmpty<< " Am0: "<< curAm0 << " detectedLamda: "<< detectedLamda);
+				NS_LOG_DEBUG("debug:Interval_Arrive "<< this <<" now: "<< (double)1.0*nowToInt/1000000000 << " C/N: "<< C_N << " Qdamp: "<<Qdamp<<" pre_Qdave: "<<pre_Qdave<<" Qave: "<<Qave-m_RTTmin.GetSeconds()<<" L_gain: "<<L_gain<<" lamda: "<<m_lamuda << " Pmax: "<< m_RTTmax.GetSeconds() << " Pmin: " << tempMin.GetSeconds() << " clear? " << nearEmpty<< " Am0: "<< curAm0 << " detectedLamda: "<< detectedLamda);
 			stable_state=true;
 			}
 		}else{
@@ -741,7 +741,7 @@ TcpPeriodicDC::CongestionStateSet (Ptr<TcpSocketState> tcb,
   else
     {
 		//Bd=defaultBd;//2020.11.11 by lhy
-		NS_LOG_INFO("debug:switching "<< this <<" now: "<< (double)1.0*Simulator::Now ().GetInteger()/1000000000 << " Entering " << newState);
+		NS_LOG_DEBUG("debug:switching "<< this <<" now: "<< (double)1.0*Simulator::Now ().GetInteger()/1000000000 << " Entering " << newState);
 	  if (newState == TcpSocketState::CA_RECOVERY){
 		  //NS_LOG_INFO("debug:switching "<< this <<" now: "<< (double)1.0*Simulator::Now ().GetInteger()/1000000000 << " Entering Recovery");
 	      if(!defaultMode){
@@ -759,7 +759,7 @@ void
 TcpPeriodicDC::ExitRecovery (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked)
 {
   NS_LOG_FUNCTION (this << tcb << segmentsAcked);
-  NS_LOG_INFO(this<<"Debug_L: without adjust window");
+  NS_LOG_DEBUG(this<<"Debug_L: without adjust window");
 
 
 }
@@ -768,7 +768,7 @@ void
 TcpPeriodicDC::IncreaseWindow (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked)
 {
 	NS_LOG_FUNCTION (this << tcb << segmentsAcked);
-	NS_LOG_INFO("debug:Regularte "<< this <<" now: "<< Simulator::Now () << " pktLostTime: "<< pktLostTime << " tcpState: "<< tcb->m_congState );
+	NS_LOG_DEBUG("debug:Regularte "<< this <<" now: "<< Simulator::Now () << " pktLostTime: "<< pktLostTime << " tcpState: "<< tcb->m_congState );
 
 
           if(Bd > defaultBd && Simulator::Now () > pktLostTime + this->GetrttInst() &&  tcb->m_congState == TcpSocketState::CA_LOSS){
