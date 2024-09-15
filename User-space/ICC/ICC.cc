@@ -51,7 +51,6 @@ void IntroCC::init() {
   else
     min_rtt = numeric_limits<double>::max();
   _timeout = 1000;//^_^
-  //cout<< " minrtt= "<< min_rtt<<endl;
   
   if (utility_mode != CONSTANT_LAMDA)
     lamda = default_lamda;
@@ -123,7 +122,6 @@ int IntroCC::find_fm()
 	int n=P_qd.size();
 	double fs=1.0*n/cycle;
 	double temp,qst=-1;
-	// cout<<endl<<"---------------------------!"<<endl;
 	rtt_num++;
 	fftw_complex *outa,*ina;
 	outa = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n);
@@ -141,11 +139,9 @@ int IntroCC::find_fm()
 	fftw_destroy_plan(ppp);
 	double PP_ave=sqrt(outa[0][0]*outa[0][0]+outa[0][1]*outa[0][1]);
 	cwnd_amp[0]=1;
-	//cout << rtt_num << "cwndFFT: 0 " << P_ave/n <<endl;//^!^
 	for(int i=1;i<n/2;i++)
 	{
 		cwnd_amp[i]=sqrt(outa[i][0]*outa[i][0]+outa[i][1]*outa[i][1])*2/PP_ave;
-		//cout << rtt_num << "cwndFFT: " << i*fs/n << " " << temp*2/n <<endl;//^!^
 	}
 	//Qd fft
 	for(int i=0;i<n;i++)
@@ -157,11 +153,9 @@ int IntroCC::find_fm()
 	fftw_execute(pp);
 	fftw_destroy_plan(pp);
 	PP_ave=sqrt(outa[0][0]*outa[0][0]+outa[0][1]*outa[0][1]);
-	//cout << rtt_num << "qdFFT: 0 " << P_ave/n <<endl;//^!^
 	for(int i=1;i<n/2;i++)
 	{
 		temp=sqrt(outa[i][0]*outa[i][0]+outa[i][1]*outa[i][1]);
-		//cout << rtt_num << "qdFFT: " << i*fs/n << " " << temp*2/n <<endl;//^!^
 		if(qst<temp)
 		{
 			qst=temp;
@@ -223,7 +217,6 @@ double IntroCC::randomize_intersend(double intersend) {
 void IntroCC::update_intersend_time(Time RTTinst) {
   double cur_time __attribute((unused)) = current_timestamp();
   // if (external_min_rtt == 0) {
-  //   cout << "External min. RTT estimate required." << endl;
   //   exit(1);
   // }
   
@@ -284,7 +277,6 @@ void IntroCC::update_intersend_time(Time RTTinst) {
   #ifdef LDEBUG
   std::cerr << rtt_num << ":time= " << cur_time << " window= " << _the_window << " target= " << target_rate << " rtt_standing= " << rtt << " min_rtt= " << min_rtt <<" queuing_delay= "<<queuing_delay<< " theta= " << theta << " lamda= " << lamda ;//^_^
   #endif
-  //cout << "time= " << cur_time << " window= " << _the_window << " target= " << target_rate << " rtt= " << rtt << " min_rtt= " << min_rtt <<" queuing_delay= "<<queuing_delay<< " delta= " << delta << " update_amt= " << update_amt << endl;
   // Set intersend time and perform boundary checks.
   cur_intersend_time = 1000 / (cur_rate * 1000 / (1.0*packet_size*8/1000));// calculate with packet_size by lhy 12.14
   _intersend_time = randomize_intersend(cur_intersend_time);
@@ -296,12 +288,10 @@ void IntroCC::onACK(int ack,
   int seq_num = ack - 1;
   double cur_time = current_timestamp();
   assert(cur_time > sent_time);
-  //cout << "bef_up: " << rtt_window.get_min_rtt();//^_^
   rtt_window.new_rtt_sample(cur_time - sent_time, cur_time);
   if(Bd == defaultBd)min_rtt = rtt_window.get_min_rtt(); //min(min_rtt, cur_time - sent_time); // add compete by lhy 2021.09.01
   else min_rtt = min(min_rtt,cur_time - sent_time); // FSNB
   gloabMinRtt=std::min(min_rtt,gloabMinRtt);
-  //cout << "aft_up " << min_rtt << endl;
   assert(rtt_window.get_unjittered_rtt() >= min_rtt);
 
 
@@ -528,9 +518,8 @@ void IntroCC::onACK(int ack,
   std::cerr<< " throughput= "<< (double)(1.0*th_cur.size()*packet_size*1000*8/(cur_time-th_cur[0])/1024/1024) << " sendingrate= " << cur_rate << " acked= " << seq_num << " ack_interval= "<< ack_interval << " step= " << theta * lamda * ack_interval /  (cur_time - sent_time) <<endl;
   #endif
   ++ num_pkts_acked;
-  if (pkt_lost) {
-    // cout<< "\ndebug1:LOST! --------------------" << endl;
-  }
+  // if (pkt_lost) {
+  // }
 }
 
 void IntroCC::onPktSent(int seq_num) {

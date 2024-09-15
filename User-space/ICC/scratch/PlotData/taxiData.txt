@@ -1,5 +1,5 @@
 CC avgDelay Throughput 95tailDelay
-Cubic 43 23.99 57
-BBR 48 23.92 62
-ICC 13 22.33 26
-Copa
+Cubic 40 24.06 57
+BBR
+ICC 11 23.96 22
+Copa 35 24.03 55

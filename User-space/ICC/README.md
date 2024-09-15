@@ -163,7 +163,11 @@ that uses ICC. It will transmit a long-term flow with 60s.
 
 `./sender serverip=$MAHIMAHI_BASE offduration=0 onduration=30000 cctype=icc lamda_conf=do_ss:compete:auto_theta:auto:1 Bd_conf=10 Rc_conf=30 traffic_params=deterministic,num_cycles=1`
 
-You can run several such sender processes in parallel (via running `send_parallel_ICC.sh [numbers of parallel sender]`),
+`Bd_conf and Rc_conf` is the parameter setting of ICC
+
+`lamda_conf` is the switch of core mechanisms of ICC. Specifically, `[compete]` indicates enabling the competitive mode of ICC, `[auto_theta|constant_theta]` indicates enabling the accelerate factor of ICC or not, and `[auto|constant_lamda]` indicates enabling the regulation of $\lambda$ or not.
+
+You can run several such sender processes in parallel (via running `send_parallel_ICC.sh [numbers of parallel sender] [duration of the test] [Bd(ms)] [Rc(Mbps)] [directory of log files]`),
 but running more than n-1 senders (where n is the number of available cores) is not
 recommended, especially for protocols that could be potentially pacing sensitive
 such as Remy.
@@ -171,6 +175,8 @@ such as Remy.
 You also can emulate the real network link via mahimahi. 
 First the network trace files in mahimahi trace format are required.
 E.g., the cellular network traces from https://github.com/Soheil-ab/Cellular-Traces-NYC
+
+You can run `scratch/evaCellular.sh [number of concurrent flows]` to conduct a local test over the cellular link. The output data of ICC is located at `scratch/uplinkLog/ICC_taxi_log[flowId].log`, which includes the information about the congestion window, delay, and so on per RTT. Moreover, the output figure is located at `scratch/PlotData/Cellular.png`
 
 
 
