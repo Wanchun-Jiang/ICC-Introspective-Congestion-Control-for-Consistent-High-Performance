@@ -1,6 +1,3 @@
-[submodule "submodules/NS3"]
-	path = submodules/NS3
+[submodule "NS3"]
+	path = NS3
 	url = git@github.com:ZoraNeverEatFish/ns-3.27-for-ICC.git
-[submodule "submodules/User-space"]
-	path = submodules/User-space
-	url = git@github.com:ZoraNeverEatFish/genericCC-for-ICC.git

@@ -1,6 +1,0 @@
-SIGNATURE=1725181424,2548
-C_MD5_SUM=fK/lHBN5zY/Xv3MnLlSVZA
-SYSTEM_INCLUDES=boost/functional/hash.hpp
-LIBS=
-INCLUDES=memoryrange.hh
-END=

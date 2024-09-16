@@ -1,6 +1,0 @@
-LIBS=
-INCLUDES=memory-with-loss-signal.hh
-SYSTEM_INCLUDES=
-C_MD5_SUM=YXoqch7r1zaGbzXObhrRWg
-SIGNATURE=1725181424,4309
-END=
