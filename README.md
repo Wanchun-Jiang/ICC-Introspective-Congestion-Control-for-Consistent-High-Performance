@@ -19,13 +19,13 @@ Or manually install dependencies according to the corressponding README
 
 `NS3/`: Simulation platform of ICC based on NS3.27
 
-`NS3/ns-3.27/scratch/periodcCCEvaDumbbell.cc`: An simple evaluation on dumbbell topology
+`NS3/scratch/periodcCCEvaDumbbell.cc`: An simple evaluation on dumbbell topology
 
-`NS3/ns-3.27/src/internet/model/tcp-periodicDC.cc/h`: The core logic of ICC
+`NS3/src/internet/model/tcp-periodicDC.cc/h`: The core logic of ICC
 
-`User-space/ICC/`: User-space implementation of ICC based on [GenericCC](https://github.com/venkatarun95/genericCC)
+`User-space/`: User-space implementation of ICC based on [GenericCC](https://github.com/venkatarun95/genericCC)
 
-`User-space/ICC/ICC.cc/hh`: The core logic of ICC
+`User-space/ICC.cc/hh`: The core logic of ICC
 
 ### Acknowledgement
 
