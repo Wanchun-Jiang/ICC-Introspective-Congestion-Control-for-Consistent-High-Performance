@@ -27,6 +27,26 @@ Or manually install dependencies according to the corressponding README
 
 `User-space/ICC.cc/hh`: The core logic of ICC
 
+### Quick Build
+
+#### Update submodules
+
+`git submodule update --init --recursive --remote`
+
+#### NS3
+
+`cd NS3/`
+
+`CC='gcc-5' CXX='g++-5' ./waf configure`
+
+`./waf`
+
+#### User-space
+
+`cd User-space/`
+
+`makepp`
+
 ### Acknowledgement
 
 Thanks a lot for all fixes and suggestions from Reviews of AES of EuroSys'25!
